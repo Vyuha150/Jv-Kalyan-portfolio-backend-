@@ -9,6 +9,7 @@ const {
   deleteExperience,
   softDeleteExperience,
 } = require("../controllers/experiencesController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // GET /api/experiences - Get all experiences
 router.get("/", getAllExperiences);
@@ -17,15 +18,15 @@ router.get("/", getAllExperiences);
 router.get("/:id", getExperienceById);
 
 // POST /api/experiences - Create a new experience (with image upload)
-router.post("/", upload.single("image"), createExperience);
+router.post("/", authMiddleware, upload.single("image"), createExperience);
 
 // PUT /api/experiences/:id - Update an experience (with optional image upload)
-router.put("/:id", upload.single("image"), updateExperience);
+router.put("/:id", authMiddleware, upload.single("image"), updateExperience);
 
 // DELETE /api/experiences/:id - Delete an experience
-router.delete("/:id", deleteExperience);
+router.delete("/:id", authMiddleware, deleteExperience);
 
 // PATCH /api/experiences/:id/deactivate - Soft delete an experience
-router.patch("/:id/deactivate", softDeleteExperience);
+router.patch("/:id/deactivate", authMiddleware, softDeleteExperience);
 
 module.exports = router;

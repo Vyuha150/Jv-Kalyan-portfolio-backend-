@@ -5,9 +5,11 @@ const fs = require("fs");
 // Get all achievements
 const getAllAchievements = async (req, res) => {
   try {
-    const achievements = await Achievement.find({ isActive: true }).sort({
-      order: 1,
-    });
+    const includeInactive =
+      String(req.query.includeInactive || "").toLowerCase() === "true";
+    const filter = includeInactive ? {} : { isActive: true };
+
+    const achievements = await Achievement.find(filter).sort({ order: 1 });
     res.json(achievements);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -26,10 +26,7 @@ app.use(cookieParser());
 // MongoDB connection
 const mongoURI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/jv-kalyan";
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(mongoURI);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -43,6 +40,7 @@ const achievementsRoutes = require("./routes/achievements");
 const experiencesRoutes = require("./routes/experiences");
 const mediaRoutes = require("./routes/media");
 const authRoutes = require("./routes/auth");
+const contactsRoutes = require("./routes/contacts");
 
 // Serve static files (uploaded images)
 const path = require("path");
@@ -59,6 +57,7 @@ app.use("/api/achievements", achievementsRoutes);
 app.use("/api/experiences", experiencesRoutes);
 app.use("/api/media", mediaRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/contacts", contactsRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

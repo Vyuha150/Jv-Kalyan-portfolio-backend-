@@ -9,6 +9,7 @@ const {
   deleteAchievement,
   softDeleteAchievement,
 } = require("../controllers/achievementsController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // GET /api/achievements - Get all achievements
 router.get("/", getAllAchievements);
@@ -17,15 +18,15 @@ router.get("/", getAllAchievements);
 router.get("/:id", getAchievementById);
 
 // POST /api/achievements - Create a new achievement (with image upload)
-router.post("/", upload.single("image"), createAchievement);
+router.post("/", authMiddleware, upload.single("image"), createAchievement);
 
 // PUT /api/achievements/:id - Update an achievement (with optional image upload)
-router.put("/:id", upload.single("image"), updateAchievement);
+router.put("/:id", authMiddleware, upload.single("image"), updateAchievement);
 
 // DELETE /api/achievements/:id - Delete an achievement
-router.delete("/:id", deleteAchievement);
+router.delete("/:id", authMiddleware, deleteAchievement);
 
 // PATCH /api/achievements/:id/deactivate - Soft delete an achievement
-router.patch("/:id/deactivate", softDeleteAchievement);
+router.patch("/:id/deactivate", authMiddleware, softDeleteAchievement);
 
 module.exports = router;

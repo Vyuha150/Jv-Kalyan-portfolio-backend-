@@ -9,6 +9,7 @@ const {
   deleteMedia,
   softDeleteMedia,
 } = require("../controllers/mediaController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -51,15 +52,15 @@ router.get("/", getAllMedia);
 router.get("/:id", getMediaById);
 
 // POST /api/media - Create a new media item (with optional image upload)
-router.post("/", upload.single("image"), createMedia);
+router.post("/", authMiddleware, upload.single("image"), createMedia);
 
 // PUT /api/media/:id - Update a media item (with optional image upload)
-router.put("/:id", upload.single("image"), updateMedia);
+router.put("/:id", authMiddleware, upload.single("image"), updateMedia);
 
 // DELETE /api/media/:id - Delete a media item
-router.delete("/:id", deleteMedia);
+router.delete("/:id", authMiddleware, deleteMedia);
 
 // PATCH /api/media/:id/deactivate - Soft delete a media item
-router.patch("/:id/deactivate", softDeleteMedia);
+router.patch("/:id/deactivate", authMiddleware, softDeleteMedia);
 
 module.exports = router;

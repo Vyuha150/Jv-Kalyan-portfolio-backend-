@@ -9,6 +9,7 @@ const {
   addSkillToCategory,
   removeSkillFromCategory,
 } = require("../controllers/skillsController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // GET /api/skills - Get all skill categories
 router.get("/", getAllSkillCategories);
@@ -17,18 +18,18 @@ router.get("/", getAllSkillCategories);
 router.get("/:id", getSkillCategoryById);
 
 // POST /api/skills - Create a new skill category
-router.post("/", createSkillCategory);
+router.post("/", authMiddleware, createSkillCategory);
 
 // PUT /api/skills/:id - Update a skill category
-router.put("/:id", updateSkillCategory);
+router.put("/:id", authMiddleware, updateSkillCategory);
 
 // DELETE /api/skills/:id - Delete a skill category
-router.delete("/:id", deleteSkillCategory);
+router.delete("/:id", authMiddleware, deleteSkillCategory);
 
 // POST /api/skills/:id/add-skill - Add a skill to a category
-router.post("/:id/add-skill", addSkillToCategory);
+router.post("/:id/add-skill", authMiddleware, addSkillToCategory);
 
 // POST /api/skills/:id/remove-skill - Remove a skill from a category
-router.post("/:id/remove-skill", removeSkillFromCategory);
+router.post("/:id/remove-skill", authMiddleware, removeSkillFromCategory);
 
 module.exports = router;

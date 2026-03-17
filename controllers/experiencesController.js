@@ -5,9 +5,11 @@ const fs = require("fs");
 // Get all experiences
 const getAllExperiences = async (req, res) => {
   try {
-    const experiences = await Experience.find({ isActive: true }).sort({
-      order: 1,
-    });
+    const includeInactive =
+      String(req.query.includeInactive || "").toLowerCase() === "true";
+    const filter = includeInactive ? {} : { isActive: true };
+
+    const experiences = await Experience.find(filter).sort({ order: 1 });
     res.json(experiences);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -9,6 +9,9 @@
     "seed": "node seedSkills.js",
     "seed:achievements": "node seedAchievements.js",
     "seed:experiences": "node seedExperiences.js",
+    "seed:media": "node seedMedia.js",
+    "seed:admin": "node seedAdmin.js",
+    "seed:all": "npm run seed && npm run seed:achievements && npm run seed:experiences && npm run seed:media && npm run seed:admin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

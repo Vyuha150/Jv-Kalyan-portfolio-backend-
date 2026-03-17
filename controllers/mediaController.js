@@ -5,7 +5,11 @@ const fs = require("fs");
 // Get all media items
 const getAllMedia = async (req, res) => {
   try {
-    const media = await Media.find({ isActive: true }).sort({ order: 1 });
+    const includeInactive =
+      String(req.query.includeInactive || "").toLowerCase() === "true";
+    const filter = includeInactive ? {} : { isActive: true };
+
+    const media = await Media.find(filter).sort({ order: 1 });
     res.json(media);
   } catch (error) {
     res.status(500).json({ message: error.message });
